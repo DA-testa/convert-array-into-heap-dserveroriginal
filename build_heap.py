@@ -1,32 +1,55 @@
-# python3
+# python3 221RDB047 
+swaps=[]
 
+def parent(index):
+    return index//2
 
-def build_heap(data):
-    swaps = []
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
+def fix_branch(heap,index):
+    index=index+1
+    if index==1:
+        return heap
+    if heap[parent(index)-1]>heap[index-1]:
+        heap[parent(index)-1],heap[index-1]=heap[index-1],heap[parent(index)-1]
+        swaps.append((parent(index)-1,index-1))
+        heap=fix_branch(heap,parent(index)-1)
+    return heap
 
-
-    return swaps
+def rebuild_heap(heap):
+    
+    for i in range(len(heap)-1,0,-1):
+        heap=fix_branch(heap,i)
+    
+    # print(heap)
 
 
 def main():
     
     # TODO : add input and corresponding checks
-    # add another input for I or F 
+    # add another input for I or F 5
+    # 5 4 3 2 1
     # first two tests are from keyboard, third test is from a file
-
+    type=input()
+    
 
     # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
+    if not type.upper().find("I")==-1:
+        lenght=int(input())
+        data = list(map(int, input().split()))
+    # input from file
+    else:
+        filename = "tests/"+input()
+        file=open(filename)
+        lenght=int(file.readline())
+        data = list(map(int, file.readline().split()))
 
     # checks if lenght of data is the same as the said lenght
-    assert len(data) == n
+
+    assert len(data) == lenght
 
     # calls function to assess the data 
     # and give back all swaps
-    swaps = build_heap(data)
+    
+    rebuild_heap(data)
 
     # TODO: output how many swaps were made, 
     # this number should be less than 4n (less than 4*len(data))
