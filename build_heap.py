@@ -38,14 +38,18 @@ def main():
     # 5 4 3 2 1
     # first two tests are from keyboard, third test is from a file
     type=input()
-    lenght=int(input())
+    
 
     # input from keyboard
     if not type.find("I")==-1:
+        lenght=int(input())
         data = list(map(int, input().split()))
     # input from file
     else:
-        data = list(map(int, open(input()).read().split()))
+        filename = input()
+        file=open(filename)
+        lenght=file.read()
+        data = list(map(int, file.read().split()))
 
     # checks if lenght of data is the same as the said lenght
     assert len(data) == lenght
