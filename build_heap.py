@@ -41,7 +41,7 @@ def main():
     lenght=int(input())
 
     # input from keyboard
-    if type.upper()=="I":
+    if not type.find("I")==-1:
         data = list(map(int, input().split()))
     # input from file
     else:
