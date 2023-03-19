@@ -10,11 +10,6 @@ def swap_with_parent(heap,index):
     heap[index],heap[index//2]=heap[index//2],heap[index]
     return heap
 
-def pr(heap):
-    for i in range(1,len(heap)):
-        print(heap[i],end=" ")
-    print()
-
 def build_heap(data):
     swaps = []
     
@@ -32,7 +27,6 @@ def build_heap(data):
             swaps.append((current_index//2-1,current_index-1))
             # print(current_index//2-1,"<->",current_index-1)
             current_index=current_index//2
-            # pr(heap)
     
     return swaps
 
@@ -47,10 +41,14 @@ def main():
     lenght=int(input())
 
     # input from keyboard
-    data = list(map(int, input().split()))
+    if type.upper()=="I":
+        data = list(map(int, input().split()))
+    # input from file
+    else:
+        data = list(map(int, open(input()).read().split()))
 
     # checks if lenght of data is the same as the said lenght
-    # assert len(data) == lenght
+    assert len(data) == lenght
 
     # calls function to assess the data 
     # and give back all swaps
