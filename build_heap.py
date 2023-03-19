@@ -1,34 +1,25 @@
 # python3 221RDB047 
+swaps=[]
 
-def check_heap(heap):
-    for index in range(len(heap)-1,0,-1):
-        if heap[index]<heap[index//2]:
-            return index
-    return -1
+def parent(index):
+    return index//2
 
-def swap_with_parent(heap,index):
-    heap[index],heap[index//2]=heap[index//2],heap[index]
+def fix_branch(heap,index):
+    index=index+1
+    if index==1:
+        return heap
+    if heap[parent(index)-1]>heap[index-1]:
+        heap[parent(index)-1],heap[index-1]=heap[index-1],heap[parent(index)-1]
+        swaps.append((parent(index)-1,index-1))
+        heap=fix_branch(heap,parent(index)-1)
     return heap
 
-def build_heap(data):
-    swaps = []
+def rebuild_heap(heap):
     
-    heap=[0]
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
-    for index in range(len(data)):
-        heap.append(data[index])
-    index=check_heap(heap)
-    while not check_heap(heap)==-1:
-        current_index=index
-        index=index-1
-        while heap[current_index]<heap[current_index//2]:
-            heap=swap_with_parent(heap,current_index)
-            swaps.append((current_index//2-1,current_index-1))
-            # print(current_index//2-1,"<->",current_index-1)
-            current_index=current_index//2
+    for i in range(len(heap)-1,0,-1):
+        heap=fix_branch(heap,i)
     
-    return swaps
+    # print(heap)
 
 
 def main():
@@ -41,23 +32,24 @@ def main():
     
 
     # input from keyboard
-    if not type.find("I")==-1:
+    if not type.upper().find("I")==-1:
         lenght=int(input())
         data = list(map(int, input().split()))
     # input from file
     else:
         filename = "tests/"+input()
         file=open(filename)
-        lenght=file.read()
-        data = list(map(int, file.read().split()))
+        lenght=int(file.readline())
+        data = list(map(int, file.readline().split()))
 
     # checks if lenght of data is the same as the said lenght
+
     assert len(data) == lenght
 
     # calls function to assess the data 
     # and give back all swaps
     
-    swaps = build_heap(data)
+    rebuild_heap(data)
 
     # TODO: output how many swaps were made, 
     # this number should be less than 4n (less than 4*len(data))
@@ -67,6 +59,7 @@ def main():
     print(len(swaps))
     for i, j in swaps:
         print(i, j)
+    print(len(swaps))
 
 
 if __name__ == "__main__":
