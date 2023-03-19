@@ -46,7 +46,7 @@ def main():
         data = list(map(int, input().split()))
     # input from file
     else:
-        filename = input()
+        filename = "tests/"+input()
         file=open(filename)
         lenght=file.read()
         data = list(map(int, file.read().split()))
